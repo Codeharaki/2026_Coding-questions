@@ -1,0 +1,56 @@
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+
+        ListNode dummy = new ListNode(0);
+        ListNode curr = dummy;
+
+        int carry = 0;
+
+        while (l1 != null || l2 != null || carry != 0) {
+
+            int sum = carry;
+
+            if (l1 != null) {
+                sum += l1.val;
+                l1 = l1.next;
+            }
+
+            if (l2 != null) {
+                sum += l2.val;
+                l2 = l2.next;
+            }
+
+            curr.next = new ListNode(sum % 10);
+
+            carry = sum / 10;
+
+            curr = curr.next;
+        }
+
+        return dummy.next;
+    }
+}
+
+/*
+Let:
+n = length of l1
+m = length of l2
+
+Time:  O(max(n,m))
+Space: O(max(n,m))
+
+Memory Trick
+For linked lists:
+Reverse List       -> 3 pointers
+Merge Lists        -> dummy node
+Reorder List       -> middle + reverse + merge
+Add Two Numbers    -> dummy node + carry
+
+For Add Two Numbers, immediately we think:
+Elementary school addition
++
+Carry
++
+Dummy node
+
+*/
