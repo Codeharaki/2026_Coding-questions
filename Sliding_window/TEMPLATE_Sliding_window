@@ -1,0 +1,13 @@
+int left = 0;
+
+for (int right = 0; right < s.length(); right++) {
+
+    // expand
+
+    while (window is invalid) {
+        left++;
+    }
+
+    // update answer
+}
+`
