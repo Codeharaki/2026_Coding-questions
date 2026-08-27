@@ -1,0 +1,45 @@
+class Solution {
+    public TreeNode lowestCommonAncestor(
+            TreeNode root,
+            TreeNode p,
+            TreeNode q) {
+
+        while (root != null) {
+
+            if (p.val < root.val &&
+                q.val < root.val) {
+
+                root = root.left;
+            }
+            else if (p.val > root.val &&
+                     q.val > root.val) {
+
+                root = root.right;
+            }
+            else {
+                return root;
+            }
+        }
+
+        return null;
+    }
+}
+
+/*
+Time:  O(log n)
+Space: O(1) iterative
+
+Worst-case skewed tree:
+Time:  O(n)
+Space: O(1)
+
+To memorize:
+LCA in BST
+=
+Use BST property
+
+both left  -> go left
+both right -> go right
+otherwise  -> current node is LCA
+
+*/
