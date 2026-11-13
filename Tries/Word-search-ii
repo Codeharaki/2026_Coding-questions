@@ -1,0 +1,61 @@
+class Solution {
+    private static class TrieNode {
+        TrieNode[] children = new TrieNode[26];
+        String word;
+    }
+
+    public List<String> findWords(char[][] board, String[] words) {
+        TrieNode root = new TrieNode();
+        for (String word : words) {
+            TrieNode node = root;
+            for (char character : word.toCharArray()) {
+                int index = character - 'a';
+                if (node.children[index] == null) {
+                    node.children[index] = new TrieNode();
+                }
+                node = node.children[index];
+            }
+            node.word = word;
+        }
+
+        List<String> result = new ArrayList<>();
+        for (int row = 0; row < board.length; row++) {
+            for (int column = 0; column < board[0].length; column++) {
+                search(board, row, column, root, result);
+            }
+        }
+        return result;
+    }
+
+    private void search(char[][] board, int row, int column,
+                        TrieNode node, List<String> result) {
+        if (row < 0 || row == board.length || column < 0 || column == board[0].length) {
+            return;
+        }
+
+        char character = board[row][column];
+        if (character == '#' || node.children[character - 'a'] == null) {
+            return;
+        }
+
+        TrieNode next = node.children[character - 'a'];
+        if (next.word != null) {
+            result.add(next.word);
+            next.word = null;
+        }
+
+        board[row][column] = '#';
+        search(board, row + 1, column, next, result);
+        search(board, row - 1, column, next, result);
+        search(board, row, column + 1, next, result);
+        search(board, row, column - 1, next, result);
+        board[row][column] = character;
+    }
+}
+
+/*
+Time:  O(m * n * 4 * 3^(L - 1)) worst case
+Space: O(total characters in words + L) for the trie and search stack
+
+Use a trie to share prefixes while backtracking through adjacent cells.
+*/

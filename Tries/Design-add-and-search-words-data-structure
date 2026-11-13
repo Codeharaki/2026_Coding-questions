@@ -1,0 +1,52 @@
+class WordDictionary {
+    private static class TrieNode {
+        TrieNode[] children = new TrieNode[26];
+        boolean isWord;
+    }
+
+    private final TrieNode root = new TrieNode();
+
+    public WordDictionary() {
+    }
+
+    public void addWord(String word) {
+        TrieNode node = root;
+        for (char character : word.toCharArray()) {
+            int index = character - 'a';
+            if (node.children[index] == null) {
+                node.children[index] = new TrieNode();
+            }
+            node = node.children[index];
+        }
+        node.isWord = true;
+    }
+
+    public boolean search(String word) {
+        return searchFrom(root, word, 0);
+    }
+
+    private boolean searchFrom(TrieNode node, String word, int index) {
+        if (index == word.length()) {
+            return node.isWord;
+        }
+
+        char character = word.charAt(index);
+        if (character == '.') {
+            for (TrieNode child : node.children) {
+                if (child != null && searchFrom(child, word, index + 1)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        TrieNode child = node.children[character - 'a'];
+        return child != null && searchFrom(child, word, index + 1);
+    }
+}
+
+/*
+Add word: O(L)
+Search:  O(26^W) worst case, where W is the number of wildcards
+Space:   O(total characters inserted)
+*/

@@ -1,0 +1,26 @@
+class KthLargest {
+    private final int k;
+    private final PriorityQueue<Integer> smallestK = new PriorityQueue<>();
+
+    public KthLargest(int k, int[] nums) {
+        this.k = k;
+        for (int num : nums) {
+            add(num);
+        }
+    }
+
+    public int add(int val) {
+        smallestK.offer(val);
+        if (smallestK.size() > k) {
+            smallestK.poll();
+        }
+        return smallestK.peek();
+    }
+}
+
+/*
+Add:   O(log k)
+Space: O(k)
+
+Keep the k largest values in a min-heap; its root is the kth largest.
+*/

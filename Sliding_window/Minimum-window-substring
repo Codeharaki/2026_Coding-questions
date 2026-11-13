@@ -1,0 +1,50 @@
+class Solution {
+    public String minWindow(String s, String t) {
+        if (t.length() > s.length()) {
+            return "";
+        }
+
+        int[] need = new int[128];
+        for (char character : t.toCharArray()) {
+            need[character]++;
+        }
+
+        int remaining = t.length();
+        int left = 0;
+        int bestStart = 0;
+        int bestLength = Integer.MAX_VALUE;
+
+        for (int right = 0; right < s.length(); right++) {
+            char added = s.charAt(right);
+            if (need[added] > 0) {
+                remaining--;
+            }
+            need[added]--;
+
+            while (remaining == 0) {
+                int windowLength = right - left + 1;
+                if (windowLength < bestLength) {
+                    bestStart = left;
+                    bestLength = windowLength;
+                }
+
+                char removed = s.charAt(left++);
+                need[removed]++;
+                if (need[removed] > 0) {
+                    remaining++;
+                }
+            }
+        }
+
+        return bestLength == Integer.MAX_VALUE
+                ? ""
+                : s.substring(bestStart, bestStart + bestLength);
+    }
+}
+
+/*
+Time:  O(|s| + |t|)
+Space: O(1) for the fixed ASCII character table
+
+Expand until the window contains t, then shrink it while it remains valid.
+*/

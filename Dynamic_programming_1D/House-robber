@@ -1,0 +1,21 @@
+class Solution {
+    public int rob(int[] nums) {
+        int twoHousesBack = 0;
+        int oneHouseBack = 0;
+
+        for (int money : nums) {
+            int best = Math.max(oneHouseBack, twoHousesBack + money);
+            twoHousesBack = oneHouseBack;
+            oneHouseBack = best;
+        }
+
+        return oneHouseBack;
+    }
+}
+
+/*
+Time:  O(n)
+Space: O(1)
+
+For each house, choose between skipping it and robbing it with the best from two houses back.
+*/

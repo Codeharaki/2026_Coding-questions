@@ -1,0 +1,32 @@
+class Solution {
+    public int maxAreaOfIsland(int[][] grid) {
+        int maximum = 0;
+        for (int row = 0; row < grid.length; row++) {
+            for (int column = 0; column < grid[0].length; column++) {
+                maximum = Math.max(maximum, explore(grid, row, column));
+            }
+        }
+        return maximum;
+    }
+
+    private int explore(int[][] grid, int row, int column) {
+        if (row < 0 || row == grid.length || column < 0 || column == grid[0].length
+                || grid[row][column] == 0) {
+            return 0;
+        }
+
+        grid[row][column] = 0;
+        return 1
+                + explore(grid, row + 1, column)
+                + explore(grid, row - 1, column)
+                + explore(grid, row, column + 1)
+                + explore(grid, row, column - 1);
+    }
+}
+
+/*
+Time:  O(rows * columns)
+Space: O(rows * columns) worst-case recursion depth
+
+Flood-fill each island once and track the largest area.
+*/
