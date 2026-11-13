@@ -1,0 +1,21 @@
+class Solution {
+    public int climbStairs(int n) {
+        int oneStepBefore = 1;
+        int twoStepsBefore = 1;
+
+        for (int step = 2; step <= n; step++) {
+            int ways = oneStepBefore + twoStepsBefore;
+            twoStepsBefore = oneStepBefore;
+            oneStepBefore = ways;
+        }
+
+        return oneStepBefore;
+    }
+}
+
+/*
+Time:  O(n)
+Space: O(1)
+
+Ways to reach a step are the sum of the ways to reach the prior two steps.
+*/

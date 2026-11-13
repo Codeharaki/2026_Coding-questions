@@ -1,0 +1,24 @@
+class Solution {
+    public int eraseOverlapIntervals(int[][] intervals) {
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));
+        int removals = 0;
+        int previousEnd = Integer.MIN_VALUE;
+
+        for (int[] interval : intervals) {
+            if (interval[0] < previousEnd) {
+                removals++;
+            } else {
+                previousEnd = interval[1];
+            }
+        }
+
+        return removals;
+    }
+}
+
+/*
+Time:  O(n log n)
+Space: O(1) extra
+
+Keep the interval that ends earliest to leave the most room for later intervals.
+*/

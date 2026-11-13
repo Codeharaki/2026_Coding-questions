@@ -1,0 +1,20 @@
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+
+        TreeNode left = invertTree(root.left);
+        TreeNode right = invertTree(root.right);
+        root.left = right;
+        root.right = left;
+        return root;
+    }
+}
+
+/*
+Time:  O(n)
+Space: O(h) recursion stack, where h is the tree height
+
+Swap the left and right subtree at every node.
+*/
